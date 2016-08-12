@@ -28,13 +28,18 @@ def on_message(client, userdata, msg):
     print("topic: "+msg.topic)
     print("payload: "+str(msg.payload))
     payload = json.loads(msg.payload.decode("utf-8"))
-    if(payload["command"] == "snap"):
-        data = open('dog.jpg', 'rb')
-        # Check and see if it's the appropriate hardware_id!!! This or make a channel for each iot device.
-        key = payload["args"]["photo_event_id"] + '.jpg'
-        print(key)
-        s3.Bucket('pose-photos').put_object(Key=key, Body=data, ACL='public-read', ContentType='image/png')
-
+    if "command" in payload:
+        if(payload["command"] == "snap"):
+            data = open('example_image_rosetta.jpg', 'rb')
+            # Check and see if it's the appropriate hardware_id!!! This or make a channel for each iot device.
+            key = payload["args"]["photo_event_id"] + '.jpg'
+            print(key)
+            s3.Bucket('pose-photos').put_object(Key=key, Body=data, ACL='public-read', ContentType='image/png')
+        else if(payload["command"] == "updateTag"):
+            pass
+        else if(payload["command"] == "updateSoftware"):
+            pass
+        
 #def on_log(client, userdata, level, msg):
 #    print(msg.topic+" "+str(msg.payload))
 
