@@ -15,6 +15,7 @@ import socket
 import ssl
 import boto3
 import json
+import operations
 # Let's use Amazon S3
 s3 = boto3.resource('s3')
 
@@ -25,20 +26,8 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("#" , 1 )
 
 def on_message(client, userdata, msg):
-    print("topic: "+msg.topic)
-    print("payload: "+str(msg.payload))
-    payload = json.loads(msg.payload.decode("utf-8"))
-    if "command" in payload:
-        if(payload["command"] == "snap"):
-            data = open('example_image_rosetta.jpg', 'rb')
-            # Check and see if it's the appropriate hardware_id!!! This or make a channel for each iot device.
-            key = payload["args"]["photo_event_id"] + '.jpg'
-            print(key)
-            s3.Bucket('pose-photos').put_object(Key=key, Body=data, ACL='public-read', ContentType='image/png')
-        else if(payload["command"] == "updateTag"):
-            pass
-        else if(payload["command"] == "updateSoftware"):
-            pass
+    operations.handle_message(client, userdata, msg)
+
         
 #def on_log(client, userdata, level, msg):
 #    print(msg.topic+" "+str(msg.payload))
@@ -52,9 +41,9 @@ awshost = "data.iot.us-east-1.amazonaws.com"
 awsport = 8883
 clientId = "myThingName"
 thingName = "myThingName"
-caPath = "aws-iot-rootCA.crt"
-certPath = "cert.pem"
-keyPath = "privkey.pem"
+caPath = "Specific/aws-iot-rootCA.crt"
+certPath = "Specific/cert.pem"
+keyPath = "Specific/privkey.pem"
 
 mqttc.tls_set(caPath, certfile=certPath, keyfile=keyPath, cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
 
