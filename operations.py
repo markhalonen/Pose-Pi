@@ -40,8 +40,12 @@ def handle_message(client, userdata, msg):
             else:
                 print("ERR: Invalid snap command!")
         elif(payload["command"] == "updateTag"):
-            if "new_tag" in payload["args"]:
-                writeTag(payload["args"]["new_tag"])
+            if checkUpdateTagCommandFormat(payload):
+                if payload["args"]["hw_id"] == readId():
+                    writeTag(payload["args"]["new_tag"])
+                    print("Updating tag.")
+            else:
+                print("ERR: Invalid updateTag command!");
         elif(payload["command"] == "updateSoftware"):
             pass #Print "Update me!"
     else:
@@ -50,6 +54,10 @@ def handle_message(client, userdata, msg):
 def checkSnapCommandFormat(snapCommand): #TODO: Use json schema
     return ("command" in snapCommand and snapCommand["command"] == "snap" and "args" in snapCommand 
     and "photo_event_id" in snapCommand["args"] and "hw_id" in snapCommand["args"])
+    
+def checkUpdateTagCommandFormat(updateCommand):
+    return ("command" in updateCommand and updateCommand["command"] == "updateTag" and "args" in updateCommand 
+    and "hw_id" in updateCommand["args"] and "new_tag" in updateCommand["args"])
     
 def toJSON(s):
     return json.loads(s)
