@@ -7,4 +7,5 @@ assert not repo.bare
 
 origin = repo.remotes.origin
 
-print(origin.pull())
+def pullRemote():
+    print(origin.pull())
