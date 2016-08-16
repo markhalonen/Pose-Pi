@@ -6,6 +6,7 @@ import sys
 from subprocess import call
 from picamera import PiCamera
 from drawText import setText
+from state import setCurrentState
 s3 = boto3.resource('s3')
 
 camera = PiCamera()
@@ -65,12 +66,13 @@ def handle_message(client, userdata, msg):
                 if payload["args"]["hw_id"] == readId():
                     new_tag = payload["args"]["new_tag"]
                     writeTag(new_tag)
-                    setDisplayText(new_tag)
+                    if params['hw_type'] == 'pi':
+                        setDisplayText(new_tag)
                     print("Updating tag.")
             else:
                 print("ERR: Invalid updateTag command!");
         elif(payload["command"] == "updateSoftware"):
-            pass #Print "Update me!"
+            setCurrentState('update')
     else:
         print("Invalid payload format")
         
