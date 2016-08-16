@@ -26,5 +26,8 @@ class TestStringMethods(unittest.TestCase):
     def testCheckSnapCommandFormat(self):
         self.assertTrue(operations.checkSnapCommandFormat(operations.toJSON('{"command":"snap","args":{"photo_event_id":"04248558-2c8b-454e-95fd-f9c46955d919","hw_id":"8f2c1519-80a6-4209-8c4b-a3ca9aee40a1"}}')))
 
+    def testDrawSymols(self):
+        operations.setDisplayText('test')
+
 if __name__ == '__main__':
     unittest.main()

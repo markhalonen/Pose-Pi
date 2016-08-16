@@ -3,7 +3,9 @@ import boto3
 import json
 import configparser
 import sys
+from subprocess import call
 from picamera import PiCamera
+from drawText import setText
 s3 = boto3.resource('s3')
 
 camera = PiCamera()
@@ -23,6 +25,7 @@ if not all (k in params for k in ('id', 'tag', 'hw_type')):
 
 def writeTag(tag):
     params['tag'] = tag
+    print("Setting tag to: " + tag)
     with open(configPath, 'w') as configfile:
         config.write(configfile)
     
@@ -45,9 +48,9 @@ def handle_message(client, userdata, msg):
                     key = payload["args"]["photo_event_id"] + '.jpg'
                     print(key)
                     print('Taking photo...')
-                    savePhoto(key)
+                    photoLocation = savePhoto(key)
                     if params['hw_type'] == 'pi':
-                        data = open(key, 'rb')
+                        data = open(photoLocation, 'rb')
                     else:
                         data = open('SampleImages/example_image_rosetta.jpg', 'rb')
                     s3.Bucket('pose-photos').put_object(Key=key, Body=data, ACL='public-read', ContentType='image/png')
@@ -60,7 +63,9 @@ def handle_message(client, userdata, msg):
         elif(payload["command"] == "updateTag"):
             if checkUpdateTagCommandFormat(payload):
                 if payload["args"]["hw_id"] == readId():
-                    writeTag(payload["args"]["new_tag"])
+                    new_tag = payload["args"]["new_tag"]
+                    writeTag(new_tag)
+                    setDisplayText(new_tag)
                     print("Updating tag.")
             else:
                 print("ERR: Invalid updateTag command!");
@@ -78,7 +83,12 @@ def checkUpdateTagCommandFormat(updateCommand):
     and "hw_id" in updateCommand["args"] and "new_tag" in updateCommand["args"])
 
 def savePhoto(name):
-    camera.capture(name)
+    location = 'Images/' + name
+    camera.capture(location)
+    return location
+
+def setDisplayText(text):
+    setText(text)
     
 def toJSON(s):
     return json.loads(s)
