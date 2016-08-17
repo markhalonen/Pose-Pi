@@ -94,3 +94,5 @@ def setDisplayText(text):
     
 def toJSON(s):
     return json.loads(s)
+
+setDisplayText(readTag())

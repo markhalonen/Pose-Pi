@@ -1,7 +1,7 @@
 import os
 from git import Repo
 
-repo = Repo(os.getcwd())
+repo = Repo('/home/pi/Pose-Pi')
 
 assert not repo.bare
 
