@@ -52,6 +52,10 @@ def handle_message(client, userdata, msg):
                     print(key)
                     print('Taking photo...')
                     sleepTime = 1
+                    setDisplayText("5")
+                    time.sleep(sleepTime)
+                    setDisplayText("4")
+                    time.sleep(sleepTime)
                     setDisplayText("3")
                     time.sleep(sleepTime)
                     setDisplayText("2")
