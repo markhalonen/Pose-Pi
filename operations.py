@@ -3,6 +3,7 @@ import boto3
 import json
 import configparser
 import sys
+import time
 from subprocess import call
 from picamera import PiCamera
 from drawText import setText
@@ -10,6 +11,7 @@ from state import setCurrentState
 s3 = boto3.resource('s3')
 
 camera = PiCamera()
+camera.vflip = True
 
 # Load param file and check validity
 config = configparser.ConfigParser()
@@ -49,6 +51,13 @@ def handle_message(client, userdata, msg):
                     key = payload["args"]["photo_event_id"] + '.jpg'
                     print(key)
                     print('Taking photo...')
+                    sleepTime = 1
+                    setDisplayText("3")
+                    time.sleep(sleepTime)
+                    setDisplayText("2")
+                    time.sleep(sleepTime)
+                    setDisplayText("1")
+                    
                     photoLocation = savePhoto(key)
                     if params['hw_type'] == 'pi':
                         data = open(photoLocation, 'rb')
