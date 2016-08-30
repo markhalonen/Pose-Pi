@@ -1,0 +1,6 @@
+1. Get internet connection
+2. sudo apt-get update
+3. Install packages: chmod 777 install_packages.sh && ./install_packages.sh
+3. Clone repo: git clone https://github.com/markhalonen/Pose-Pi
+4. Install virtualenv: sudo apt-get install virtualenv
+4. Install Python3 virtual environment (in Pose-Pi): 
