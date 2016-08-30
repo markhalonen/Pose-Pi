@@ -1,0 +1,11 @@
+internet
+install gedit
+install virtualenv
+virtualenv --system-site-packages -p python3 P3
+pip install -r requirements.txt
+paho-mqtt
+boto3
+add state file
+enable camera (plug camera in)
+apt-get awscli and set credentials
+add 'bash /home/pi/Pose-Pi/start.sh &' to /etc/rc.local (this boots on startup)
