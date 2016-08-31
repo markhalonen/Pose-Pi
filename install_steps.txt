@@ -1,10 +1,18 @@
 internet
+sudo apt-get update
 install gedit
+follow instructions on rm-hull ssd1306. reboot
 install virtualenv
+git clone --recursive
 virtualenv --system-site-packages -p python3 P3
+pip install ez_setup
+python ez_setup.py
+sudo python setup.py install 
+pip install Adafruit_GPIO Adafruit_SSD1306
+AT THIS POINT python examples/shapes.py SHOULD WORK ON THE SCREEN!!
 pip install -r requirements.txt
-paho-mqtt
-boto3
+pip install paho-mqtt boto3 awscli
+aws configure
 add state file
 enable camera (plug camera in)
 apt-get awscli and set credentials
