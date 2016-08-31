@@ -6,14 +6,14 @@ install virtualenv
 git clone --recursive
 virtualenv --system-site-packages -p python3 P3
 pip install ez_setup
-python ez_setup.py
+python ez_setup.py <-- Shouldn't give errors
 sudo python setup.py install 
 pip install Adafruit_GPIO Adafruit_SSD1306
 AT THIS POINT python examples/shapes.py SHOULD WORK ON THE SCREEN!!
 pip install -r requirements.txt
 pip install paho-mqtt boto3 awscli
 aws configure
+mkdir Specific Images
 add state file
 enable camera (plug camera in)
-apt-get awscli and set credentials
 add 'bash /home/pi/Pose-Pi/start.sh &' to /etc/rc.local (this boots on startup)
