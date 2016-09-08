@@ -1,7 +1,7 @@
 import os
 import boto3
 import json
-import configparser
+import config #config.py
 import sys
 import time
 from subprocess import call
@@ -12,31 +12,6 @@ s3 = boto3.resource('s3')
 
 camera = PiCamera()
 camera.vflip = True
-
-# Load param file and check validity
-config = configparser.ConfigParser()
-configPath = 'Specific/config.cfg'
-if not os.path.isfile(configPath):
-    print("Configuration incorrect")
-    sys.exit("Config file missing")
-config.read(configPath)
-if not 'params' in config:
-    sys.exit("Invalid params file") 
-params = config['params']
-if not all (k in params for k in ('id', 'tag', 'hw_type')):
-    sys.exit('Missing params in param file')
-
-def writeTag(tag):
-    params['tag'] = tag
-    print("Setting tag to: " + tag)
-    with open(configPath, 'w') as configfile:
-        config.write(configfile)
-    
-def readTag():
-    return params['tag']
-
-def readId():
-    return params['id']
     
 def handle_message(client, userdata, msg):
     print("topic: "+msg.topic)
@@ -46,7 +21,7 @@ def handle_message(client, userdata, msg):
         # Check and see if it's the appropriate hardware_id!!! This or make a channel for each iot device.
         if payload["command"] == "snap" :
             if checkSnapCommandFormat(payload):
-                if payload["args"]["hw_id"] == readId():
+                if payload["args"]["hw_id"] == config.readId():
                     
                     key = payload["args"]["photo_event_id"] + '.jpg'
                     print(key)
@@ -61,25 +36,27 @@ def handle_message(client, userdata, msg):
                     setDisplayText("2")
                     time.sleep(sleepTime)
                     setDisplayText("1")
-                    
+                    time.sleep(sleepTime)
+                    setDisplayText("0")
+		
                     photoLocation = savePhoto(key)
-                    if params['hw_type'] == 'pi':
+                    if config.readHwType() == 'pi':
                         data = open(photoLocation, 'rb')
                     else:
                         data = open('SampleImages/example_image_rosetta.jpg', 'rb')
                     s3.Bucket('pose-photos').put_object(Key=key, Body=data, ACL='public-read', ContentType='image/png')
                 else:
                     print("Not my id!")
-                    print(readId())
+                    print(config.readId())
                     print(payload["args"]["hw_id"])		
             else:
                 print("ERR: Invalid snap command!")
         elif(payload["command"] == "updateTag"):
             if checkUpdateTagCommandFormat(payload):
-                if payload["args"]["hw_id"] == readId():
+                if payload["args"]["hw_id"] == config.readId():
                     new_tag = payload["args"]["new_tag"]
-                    writeTag(new_tag)
-                    if params['hw_type'] == 'pi':
+                    config.writeTag(new_tag)
+                    if config.readHwType() == 'pi':
                         setDisplayText(new_tag)
                     print("Updating tag.")
             else:
@@ -108,4 +85,4 @@ def setDisplayText(text):
 def toJSON(s):
     return json.loads(s)
 
-setDisplayText(readTag())
+setDisplayText(config.readTag())
