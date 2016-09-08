@@ -9,3 +9,6 @@ origin = repo.remotes.origin
 
 def pullRemote():
     print(origin.pull())
+
+def stash():
+    print(repo.git.stash('save'))
