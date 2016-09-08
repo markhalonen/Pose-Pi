@@ -11,7 +11,7 @@ from state import setCurrentState
 s3 = boto3.resource('s3')
 
 camera = PiCamera()
-camera.vflip = True
+camera.vflip = False
     
 def handle_message(client, userdata, msg):
     print("topic: "+msg.topic)
