@@ -11,7 +11,7 @@ pullRemote()
 sp.Popen(['python', 'pacemaker.py'])
 print("Begin exiting")
 
-time.sleep(10)
+time.sleep(4)
 
 # Update this tag
 triggerUpdateTag()
