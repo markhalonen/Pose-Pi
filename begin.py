@@ -15,5 +15,3 @@ time.sleep(4)
 
 # Update this tag
 triggerUpdateTag()
-
-
