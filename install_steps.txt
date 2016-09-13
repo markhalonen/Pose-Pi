@@ -17,3 +17,4 @@ mkdir Specific Images
 add state file
 enable camera (plug camera in)
 add 'bash /home/pi/Pose-Pi/start.sh &' to /etc/rc.local (this boots on startup)
+Does this get added
