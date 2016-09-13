@@ -6,6 +6,7 @@ import boto3
 from triggerUpdateTagLambda import triggerUpdateTag
 #Update from github
 stash()
+time.sleep(1)
 pullRemote()
 
 sp.Popen(['python', 'pacemaker.py'])
