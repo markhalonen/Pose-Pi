@@ -22,7 +22,7 @@ while True:
         setCurrentState('good')
         pullRemote()
         #restart the pi!
-        os.system('shutdown -r now')
+        os.system('sudo shutdown -r now')
 
 
 subscriberProcess.kill()
