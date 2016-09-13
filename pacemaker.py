@@ -3,7 +3,6 @@ import subprocess as sp
 import time
 import os
 from state import getCurrentState, setCurrentState
-from git_operations import pullRemote
 
 subscriberProcess = sp.Popen(['python', 'subscriber.py'], stdout=sp.PIPE)
 print("Subsriber ID: " + str(subscriberProcess.pid))
@@ -20,7 +19,6 @@ while True:
     if getCurrentState() == 'update':
         print('Updating!!')
         setCurrentState('good')
-        pullRemote()
         #restart the pi!
         os.system('sudo shutdown -r now')
 
