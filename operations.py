@@ -12,7 +12,7 @@ s3 = boto3.resource('s3')
 
 camera = PiCamera()
 camera.vflip = False
-#camera.resolution = (3280, 2464)
+camera.resolution = (3280, 2464)
     
 def handle_message(client, userdata, msg):
     print("topic: "+msg.topic)
