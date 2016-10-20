@@ -76,7 +76,10 @@ def setText(text):
 
     # Define text and get total width.
     maxwidth, unused = draw.textsize(text, font=font)
-    draw.text((10, 0), text, font=font, fill=255)
+    xPos = 0
+    if maxwidth < width:
+        xPos = (width - maxwidth) / 2
+    draw.text((xPos, 0), text, font=font, fill=255)
     disp.image(image)
     disp.display()
 
