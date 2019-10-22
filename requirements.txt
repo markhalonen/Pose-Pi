@@ -20,7 +20,7 @@ pgzero==1.1
 picamera==1.12
 pifacedigitalio==3.1.0
 pigpio==1.30
-Pillow==2.6.1
+Pillow==6.2.0
 pygame==1.9.2a0
 Pygments==2.0.1
 pygobject==3.14.0
