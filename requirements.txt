@@ -31,7 +31,7 @@ python-debian==0.1.27
 requests==2.4.3
 roman==2.0.0
 RPi.GPIO==0.6.2
-rsa==3.1.4
+rsa==4.7
 RTIMULib==7.2.1
 s3transfer==0.1.1
 sense-hat==2.2.0
